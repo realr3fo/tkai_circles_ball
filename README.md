@@ -4,6 +4,10 @@ A coursework to complete the architecture and infrastructure final project. This
 # How to Use
 There are 5 API in total,
 
+## Godep
+Use `https://github.com/golang/dep` instead of `https://github.com/tools/godep`
+After install dep, run `dep ensure -vendor-only` to install all dependency
+
 ## Register User
 ```http request
 POST /api/user/new
