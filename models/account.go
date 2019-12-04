@@ -4,7 +4,7 @@ import (
 	"errors"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/jinzhu/gorm"
-	u "go-contacts/utils"
+	u "github.com/adigunhammedolalekan/go-contacts/utils"
 	"golang.org/x/crypto/bcrypt"
 	"os"
 )

@@ -3,7 +3,7 @@ package models
 import (
 	"fmt"
 	"github.com/jinzhu/gorm"
-	u "go-contacts/utils"
+	u "github.com/adigunhammedolalekan/go-contacts/utils"
 )
 
 type Contact struct {
