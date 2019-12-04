@@ -1,6 +1,7 @@
 package models
 
 import (
+	"errors"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/jinzhu/gorm"
 	u "go-contacts/utils"
@@ -25,10 +26,11 @@ type Account struct {
 }
 
 //Validate incoming user details...
-func (account *Account) Validate() (map[string] interface{}, bool) {
+func (account *Account) Validate() (map[string] interface{}, bool, error) {
 
 	if len(account.Password) < 6 {
-		return u.Message(false, "Password is required"), false
+		err := errors.New("password length should be > 6")
+		return u.Message(false, "Password is required"), false, err
 	}
 
 	//Username must be unique
@@ -37,19 +39,20 @@ func (account *Account) Validate() (map[string] interface{}, bool) {
 	//check for errors and duplicate username
 	err := GetDB().Table("accounts").Where("username = ?", account.Username).First(temp).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
-		return u.Message(false, "Connection db error. Please retry"), false
+		return u.Message(false, "Connection db error. Please retry"), false, err
 	}
 	if temp.Username != "" {
-		return u.Message(false, "Username already in use by another user."), false
+		err := errors.New("username is already in use by another user")
+		return u.Message(false, "Username already in use by another user."), false, err
 	}
 
-	return u.Message(false, "Requirement passed"), true
+	return u.Message(false, "Requirement passed"), true, nil
 }
 
-func (account *Account) Create() map[string] interface{} {
+func (account *Account) Create() (map[string] interface{}, error) {
 
-	if resp, ok := account.Validate(); !ok {
-		return resp
+	if resp, ok, err := account.Validate(); !ok {
+		return resp, err
 	}
 
 	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(account.Password), bcrypt.DefaultCost)
@@ -58,7 +61,8 @@ func (account *Account) Create() map[string] interface{} {
 	GetDB().Create(account)
 
 	if account.ID <= 0 {
-		return u.Message(false, "Failed to create account, connection error.")
+		var err = errors.New("failed to create account, connection error")
+		return u.Message(false, "Failed to create account, connection error."), err
 	}
 
 	//Create new JWT token for the newly registered account
@@ -71,23 +75,23 @@ func (account *Account) Create() map[string] interface{} {
 
 	response := u.Message(true, "Account has been created")
 	response["account"] = account
-	return response
+	return response, nil
 }
 
-func Login(username, password string) map[string]interface{} {
+func Login(username, password string) (map[string] interface{}, error) {
 
 	account := &Account{}
 	err := GetDB().Table("accounts").Where("username = ?", username).First(account).Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
-			return u.Message(false, "Username not found")
+			return u.Message(false, "Username not found"), err
 		}
-		return u.Message(false, "Connection error. Please retry")
+		return u.Message(false, "Connection error. Please retry"), err
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(account.Password), []byte(password))
 	if err != nil && err == bcrypt.ErrMismatchedHashAndPassword { //Password does not match!
-		return u.Message(false, "Invalid login credentials. Please try again")
+		return u.Message(false, "Invalid login credentials. Please try again"), err
 	}
 	//Worked! Logged In
 	account.Password = ""
@@ -100,7 +104,7 @@ func Login(username, password string) map[string]interface{} {
 
 	resp := u.Message(true, "Logged In")
 	resp["account"] = account
-	return resp
+	return resp, nil
 }
 
 func GetUser(u uint) *Account {
