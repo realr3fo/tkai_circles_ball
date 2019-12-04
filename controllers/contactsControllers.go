@@ -3,8 +3,8 @@ package controllers
 import (
 	"encoding/json"
 	"net/http"
-	"tkai/models"
-	u "tkai/utils"
+	"github.com/realr3fo/tkai_circles/models"
+	u "github.com/realr3fo/tkai_circles/utils"
 )
 
 var CreateContact = func(w http.ResponseWriter, r *http.Request) {
