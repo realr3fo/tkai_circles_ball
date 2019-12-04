@@ -9,7 +9,7 @@ import (
 
 var CreateContact = func(w http.ResponseWriter, r *http.Request) {
 
-	user := r.Context().Value("user") . (uint) //Grab the id of the user that send the request
+	user := r.Context().Value("user").(uint) //Grab the id of the user that send the request
 	contact := &models.Contact{}
 
 	err := json.NewDecoder(r.Body).Decode(contact)
@@ -25,7 +25,7 @@ var CreateContact = func(w http.ResponseWriter, r *http.Request) {
 
 var GetContactsFor = func(w http.ResponseWriter, r *http.Request) {
 	//params := mux.Vars(r)
-	id := r.Context().Value("user") . (uint)
+	id := r.Context().Value("user").(uint)
 	//id, err := strconv.Atoi(params["id"])
 	//if err != nil {
 	if id == 0 {

@@ -15,8 +15,11 @@ func main() {
 
 	router.HandleFunc("/api/user/new", controllers.CreateAccount).Methods("POST")
 	router.HandleFunc("/api/user/login", controllers.Authenticate).Methods("POST")
-	router.HandleFunc("/api/contacts/new", controllers.CreateContact).Methods("POST")
-	router.HandleFunc("/api/contacts", controllers.GetContactsFor).Methods("GET") //  user/2/contacts
+	//router.HandleFunc("/api/contacts/new", controllers.CreateContact).Methods("POST")
+	//router.HandleFunc("/api/contacts", controllers.GetContactsFor).Methods("GET") //  user/2/contacts
+	router.HandleFunc("/api/circle/area", controllers.GetCircleArea).Methods("POST")
+	router.HandleFunc("/api/tube/volume", controllers.GetTubeVolume).Methods("POST")
+	router.HandleFunc("/api/ball/volume", controllers.GetBallVolume).Methods("POST")
 
 	router.Use(app.JwtAuthentication) //attach JWT auth middleware
 
