@@ -8,6 +8,12 @@ There are 5 API in total,
 Use `https://github.com/golang/dep` instead of `https://github.com/tools/godep`
 After install dep, run `dep ensure -vendor-only` to install all dependency
 
+## How To Run
+Run ``docker-compose build``
+Run `docker-compose up -d db`
+Wait until db ready `(starting db ... done)`
+Run `docker-compose up tkai`
+
 ## Register User
 ```http request
 POST /api/user/new
