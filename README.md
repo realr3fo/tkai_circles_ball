@@ -10,8 +10,11 @@ After install dep, run `dep ensure -vendor-only` to install all dependency
 
 ## How To Run
 Run ``docker-compose build``
+
 Run `docker-compose up -d db`
+
 Wait until db ready `(starting db ... done)`
+
 Run `docker-compose up tkai`
 
 ## Register User
