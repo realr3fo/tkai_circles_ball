@@ -6,7 +6,7 @@ services:
         build: .
         tty: true
         ports: 
-            - "8080:8080"
+            - "8000:8000"
         networks: 
             - ktai
         depends_on: 
@@ -20,6 +20,7 @@ services:
             - db_host=db
             - db_port=5432
             - token_password=thisIsTheJwtPassword
+            - port=8000
     
     db:
         container_name: db
