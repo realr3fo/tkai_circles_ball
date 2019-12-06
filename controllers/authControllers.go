@@ -3,8 +3,8 @@ package controllers
 import (
 	"encoding/json"
 	"net/http"
-	"github.com/realr3fo/tkai_circles/models"
-	u "github.com/realr3fo/tkai_circles/utils"
+	"github.com/realr3fo/tkai_circles_ball/models"
+	u "github.com/realr3fo/tkai_circles_ball/utils"
 )
 
 var CreateAccount = func(w http.ResponseWriter, r *http.Request) {
