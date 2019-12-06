@@ -1,0 +1,19 @@
+settings:
+  legacy:
+    force: false
+    interval: 0s
+schema:
+- name: tkai_circles_account
+  path: /go/src/github.com/realr3fo/tkai_circles_ball
+  commands:
+    run:
+      status: true
+  watcher:
+    extensions:
+    - go
+    paths:
+    - /
+    ignored_paths:
+    - .git
+    - .realize
+    - vendor
