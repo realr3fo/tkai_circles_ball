@@ -6,7 +6,7 @@ import (
 	"github.com/jinzhu/gorm"
 	"golang.org/x/crypto/bcrypt"
 	"os"
-	u "tkai_circles_ball/utils"
+	u "github.com/realr3fo/tkai_circles_ball/utils"
 )
 
 /*
